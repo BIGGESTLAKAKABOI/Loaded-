@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADEMIDE OGO - LAGOS LIFE STORE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#000;color:#fff}
+.top{border-bottom:1px solid #222;padding:14px 16px;display:flex;gap:10px;align-items:center}
+.logo{width:36px;height:36px;border:1px solid #c9a86a;color:#c9a86a;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.hero{margin:16px;border:1px solid #333;border-radius:20px;padding:35px 20px;text-align:center}
+.hero small{color:#c9a86a;letter-spacing:3px}
+.circle{width:90px;height:90px;border:1px solid #c9a86a;border-radius:50%;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:50px;color:#c9a86a}
+.hero h1 span{color:#c9a86a}.hero p{color:#aaa;font-size:14px}
+.btn-gold{background:linear-gradient(90deg,#e8c47a,#c9a86a);color:#000;padding:15px;border:none;border-radius:10px;font-weight:bold;width:90%;margin-top:20px;cursor:pointer}
+.btn-green{background:#1a7a4a;color:#fff;padding:15px;border:none;border-radius:10px;font-weight:bold;width:100%;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.pkg{border:1px solid #2a2a2a;background:#111;padding:20px 16px;border-radius:12px;text-align:center;cursor:pointer}
+.pkg h3{color:#e8c47a;font-size:22px;margin:6px 0}.pkg small{color:#c9a86a}
+.payBox{margin:16px;border:1px solid #333;border-radius:20px;padding:22px;display:none}
+.bank{border:1px solid #8a6d2b;border-radius:12px;padding:16px;margin-top:15px}
+input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #333;background:#111;color:#fff}
+label{font-size:12px;color:#c9a86a}
+#adminPage{display:none;min-height:100vh;padding:20px}
+.adminBox{max-width:360px;margin:60px auto;background:#111;border:1px solid #333;border-radius:16px;padding:28px;text-align:center}
+.card{background:#111;border:1px solid #222;border-radius:12px;padding:16px;margin:12px auto;max-width:500px;text-align:left}
+#floatAdmin{position:fixed;bottom:20px;right:20px;z-index:9999;background:#c9a86a;color:#000;border:none;padding:12px 18px;border-radius:30px;font-weight:bold;box-shadow:0 4px 20px rgba(0,0,0,0.6);cursor:pointer}
+.editRow{display:flex;gap:8px;align-items:center}
+.editRow input{flex:1}
+</style>
+</head>
+<body>
+<button id="floatAdmin" onclick="showAdmin()">⚙️ ADMIN</button>
+<div id="storePage">
+<div class="top"><div class="logo">AO</div><div><b>ADEMIDE OGO</b><br><span style="color:#c9a86a;font-size:12px">LAGOS LIFE STORE</span></div></div>
+<div class="hero"><small>UNOFFICIAL TOP-UP</small><div class="circle">₦</div><h1>Get <span>Game Naira</span><br>Fast</h1><p id="heroBankText">Payment by bank transfer only - SMARTCASH 9077036454</p><button class="btn-gold" onclick="document.getElementById('grid').scrollIntoView()">View Packages</button></div>
+<div style="text-align:center;padding:10px"><h2>Choose a <span style="color:#c9a86a">Package</span></h2><p style="color:#999;font-size:13px">New Prices Updated</p></div>
+<div class="grid" id="grid"></div>
+<div class="payBox" id="payBox">
+<h2 id="selName" style="text-align:center">50 Billion</h2>
+<h2 id="selPrice" style="text-align:center;color:#e8c47a">₦200</h2>
+<div class="bank"><label id="bankNameLabel">SMARTCASH</label><p style="margin-top:10px" id="accNameLabel">Oyetunji Akinkunmi</p><h2 id="accNumLabel">9077036454</h2></div>
+<input id="gameUser" placeholder="Enter Lagos Life Username">
+<button class="btn-green" onclick="goWhats()">CHAT & SEND RECEIPT</button>
+</div>
+<div style="text-align:center;padding:30px 16px 80px"><p style="color:#555;font-size:12px">ADEMIDE OGO STORE • FAST DELIVERY</p></div>
+</div>
+<div id="adminPage">
+<div class="adminBox" id="loginBox">
+<h1 style="color:#c9a86a">Admin Login</h1>
+<input type="password" id="pass" placeholder="Password">
+<button onclick="doLogin()" style="width:100%;padding:12px;background:#c9a86a;border:none;border-radius:8px;font-weight:bold;cursor:pointer">Enter</button>
+<button onclick="showStore()" style="width:100%;padding:12px;background:#222;color:#fff;border:none;border-radius:8px;margin-top:10px;cursor:pointer">Back to Store</button>
+</div>
+<div id="dashBox" style="display:none;max-width:500px;margin:0 auto">
+<h2 style="color:#c9a86a;text-align:center">ADEMIDE OGO — Admin</h2>
+<div class="card">
+<b style="color:#e8c47a">EDIT STORE - SYNC FOR ALL DEVICES</b><br><br>
+<label>WhatsApp Number</label>
+<input id="editPhone" value="2349077036454">
+<label>Bank Name</label>
+<input id="editBank" value="SMARTCASH">
+<label>Account Name</label>
+<input id="editAccName" value="Oyetunji Akinkunmi">
+<label>Account Number</label>
+<input id="editAccNum" value="9077036454">
+<hr style="border-color:#333;margin:15px 0">
+<b style="color:#e8c47a">EDIT PRICES</b>
+<div id="priceEdits"></div>
+<button onclick="saveSettings()" style="width:100%;padding:13px;background:#1a7a4a;color:#fff;border:none;border-radius:8px;font-weight:bold;margin-top:12px;cursor:pointer">SAVE - UPDATE FOR EVERYONE</button>
+<p id="saveMsg" style="color:#4ade80;font-size:12px;margin-top:8px;text-align:center"></p>
+</div>
+<div class="card"><b style="color:#e8c47a">Bank:</b> <span id="dashBankInfo">SMARTCASH - 9077036454</span><br><b style="color:#e8c47a">Orders:</b> <span id="totalOrders">0</span></div>
+<div class="card"><b style="color:#e8c47a">Recent Orders</b><div id="orderList"></div></div>
+<div style="max-width:500px;margin:0 auto"><button onclick="showStore()" style="width:100%;padding:12px;background:#222;color:#fff;border:none;border-radius:8px;cursor:pointer">View Store</button></div>
+</div>
+</div>
+<script>
+var SETTINGS = {phone:"2349077036454",bank:"SMARTCASH",accName:"Oyetunji Akinkunmi",accNum:"9077036454",pkgs:[["50 Billion",200],["150 Billion",500],["300 Billion",1000],["500 Billion",2000],["1 Trillion",3000]]};
+var curN="",curP=0;
+function renderStore(){
+  document.getElementById('heroBankText').innerText='Payment by bank transfer only - '+SETTINGS.bank+' '+SETTINGS.accNum;
+  document.getElementById('bankNameLabel').innerText=SETTINGS.bank;
+  document.getElementById('accNameLabel').innerText=SETTINGS.accName;
+  document.getElementById('accNumLabel').innerText=SETTINGS.accNum;
+  var dash=document.getElementById('dashBankInfo'); if(dash) dash.innerText=SETTINGS.bank+' - '+SETTINGS.accNum;
+  var g=document.getElementById('grid'); g.innerHTML='';
+  SETTINGS.pkgs.forEach(function(p){
+    var d=document.createElement('div'); d.className='pkg';
+    d.innerHTML='<b>'+p[0]+'</b><h3>₦'+Number(p[1]).toLocaleString()+'</h3><small>TAP TO BUY</small>';
+    d.onclick=function(){curN=p[0];curP=p[1];document.getElementById('selName').innerText=p[0];document.getElementById('selPrice').innerText='₦'+Number(p[1]).toLocaleString();document.getElementById('payBox').style.display='block';document.getElementById('payBox').scrollIntoView({behavior:'smooth'});};
+    g.appendChild(d);
+  });
+  var pe=document.getElementById('priceEdits');
+  if(pe){
+    pe.innerHTML='';
+    SETTINGS.pkgs.forEach(function(p,idx){
+      var row=document.createElement('div');
+      row.innerHTML='<label>'+p[0]+'</label><div class="editRow"><input type="number" id="price_'+idx+'" value="'+p[1]+'"></div>';
+      pe.appendChild(row);
+    });
+    document.getElementById('editPhone').value=SETTINGS.phone;
+    document.getElementById('editBank').value=SETTINGS.bank;
+    document.getElementById('editAccName').value=SETTINGS.accName;
+    document.getElementById('editAccNum').value=SETTINGS.accNum;
+  }
+}
+async function loadSettings(){
+  try{
+    var r=await fetch('/api/settings'); var d=await r.json();
+    if(d && d.pkgs) SETTINGS=d;
+  }catch(e){}
+  renderStore();
+}
+async function saveSettings(){
+  SETTINGS.phone=document.getElementById('editPhone').value.trim();
+  SETTINGS.bank=document.getElementById('editBank').value.trim();
+  SETTINGS.accName=document.getElementById('editAccName').value.trim();
+  SETTINGS.accNum=document.getElementById('editAccNum').value.trim();
+  SETTINGS.pkgs.forEach(function(p,idx){var v=document.getElementById('price_'+idx).value; if(v) p[1]=Number(v);});
+  document.getElementById('saveMsg').innerText='Saving...';
+  try{
+    await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(SETTINGS)});
+    document.getElementById('saveMsg').innerText='Saved! All devices go see am with same link.';
+  }catch(e){document.getElementById('saveMsg').innerText='Error saving, try again';}
+  renderStore();
+}
+function goWhats(){
+  var u=document.getElementById('gameUser').value||'Not entered';
+  var orders=JSON.parse(localStorage.getItem('ademide_orders')||'[]');
+  orders.push({pkg:curN,price:curP,username:u,time:new Date().toLocaleString()});
+  localStorage.setItem('ademide_orders',JSON.stringify(orders));
+  var text='Hello ADEMIDE OGO! I want '+curN+' ₦'+curP+' Username: '+u+' Paid to '+SETTINGS.accNum;
+  window.open('https://wa.me/'+SETTINGS.phone+'?text='+encodeURIComponent(text),'_blank');
+}
+function showAdmin(){document.getElementById('storePage').style.display='none';document.getElementById('adminPage').style.display='block';document.getElementById('floatAdmin').style.display='none';window.scrollTo(0,0);}
+function showStore(){document.getElementById('adminPage').style.display='none';document.getElementById('storePage').style.display='block';document.getElementById('floatAdmin').style.display='block';document.getElementById('loginBox').style.display='block';document.getElementById('dashBox').style.display='none';}
+function doLogin(){
+  if(document.getElementById('pass').value==='ademide2026'){
+    document.getElementById('loginBox').style.display='none';document.getElementById('dashBox').style.display='block';renderStore();
+    var orders=JSON.parse(localStorage.getItem('ademide_orders')||'[]');
+    document.getElementById('totalOrders').innerText=orders.length;
+    document.getElementById('orderList').innerHTML=orders.length?orders.map(function(o){return '<div style="background:#222;padding:10px;border-radius:8px;margin:6px 0;font-size:13px"><b>'+o.pkg+' ₦'+Number(o.price).toLocaleString()+'</b><br>'+o.username+' - '+o.time+'</div>';}).join(''):'<p style="color:#888">No orders yet</p>';
+  } else alert('Wrong password');
+}
+loadSettings();
+</script>
+</body>
+                                                                                                                      </html>
